@@ -31,12 +31,14 @@ public class AddProductPage extends JFrame implements ActionListener{
 	private JTextField prodPrice;
 	
 	 private JButton save;
+	 private JButton back;
 
 	public AddProductPage()
 	{
 		setTitle("Add product page");
 		setPanel();
 		setSize(500,500);
+		setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
@@ -62,6 +64,7 @@ public class AddProductPage extends JFrame implements ActionListener{
 	    prodPrice=new JTextField(20);
 	    
 	    save=new JButton("Save");
+	    back=new JButton("Back");
 	    
 		panel.add(productCode);
 		panel.add(prodCode);
@@ -123,8 +126,14 @@ public class AddProductPage extends JFrame implements ActionListener{
 	    gc.gridy=5;
 	    add(save,gc);
 	    
+	    gc.gridx=0;
+	    gc.gridy=5;
+	    add(back,gc);
+	    
+	    
+	    
 	    save.addActionListener(this);
-	   
+	    back.addActionListener(this);
 	    
 	    
 	}
@@ -135,8 +144,9 @@ public class AddProductPage extends JFrame implements ActionListener{
 		
 		
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
+	  if(event.getSource()==save) {
 		Product product=new Product();
 		
 		if(prodCode.getText().equals("") || prodName.getText().equals("") || prodQty.getText().equals("") || prodPrice.getText().equals("")){
@@ -152,6 +162,12 @@ public class AddProductPage extends JFrame implements ActionListener{
             JOptionPane.showMessageDialog(null,"Product added succesfully!");
             
         }
+	  }
+	  
+	  if(event.getSource()==back) {
+		  	this.dispose();
+			ProductsPage hp=new ProductsPage();
+	  }
 		
 	}
 	
