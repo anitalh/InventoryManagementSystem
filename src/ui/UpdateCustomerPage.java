@@ -1,9 +1,12 @@
 package ui;
 
 import java.awt.GridBagConstraints;
+
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -12,7 +15,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import dao.CustomerDAO;
+import dao.UserDAO;
 import pojo.Customer;
+import pojo.User;
 
 
 	public class UpdateCustomerPage extends JFrame implements ActionListener{
@@ -36,25 +41,24 @@ import pojo.Customer;
 		private JLabel email;
 		private JTextField emailAddress;
 		
-		 private JButton update;
+		private JButton update;
+		private JButton back;
+		
+		private CustomerDAO custDAO;
 
-		public UpdateCustomerPage()
-		{
+		public UpdateCustomerPage(){
 			setTitle("Update customer page");
 			setPanel();
 			setSize(500,500);
+			setLocationRelativeTo(null);
 			setVisible(true);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		}
 
-			private void setPanel() {
-			
+			private void setPanel() {			
 			/* Setting up panel */
 			panel = new JPanel();
-		
-		    
-			
+				
 			customerId=new JLabel("Customer ID");
 			uniqueId=new JTextField(20);
 		    
@@ -74,6 +78,7 @@ import pojo.Customer;
 			code=new JTextField(20);
 		    
 			update=new JButton("Update");
+			back=new JButton("Back");
 		    
 			panel.add(customerId);
 			panel.add(uniqueId);
@@ -94,6 +99,7 @@ import pojo.Customer;
 			panel.add(code);
 			
 			panel.add(update);
+			panel.add(back);
 				
 			setLayout(new GridBagLayout());
 		    GridBagConstraints gc=new GridBagConstraints();
@@ -155,32 +161,51 @@ import pojo.Customer;
 		    gc.gridy=7;
 		    add(update,gc);
 		    
-		    update.addActionListener(this);		    
+		    gc.gridx=0;
+		    gc.gridy=7;
+		    add(back,gc);
+		    
+		    update.addActionListener(this);	
+		    back.addActionListener(this);
 		    
 		}
 		
 		public static void main(String[] args) {
-			UpdateCustomerPage ca =new UpdateCustomerPage();
+			UpdateCustomerPage cp =new UpdateCustomerPage();
 		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			Customer customer=new Customer();
+			 if(e.getSource()==update) {
+				 Customer customer=new Customer();
+				 custDAO=new CustomerDAO();
 			
-			if(uniqueId.getText().equals("") || customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("") ){
-				JOptionPane.showMessageDialog(null,"Please fill all the fields!");
-			}   
-			else {
-				customer.setCustomerId(uniqueId.getText());
-				customer.setName(customerName.getText());
-				customer.setLocation(customerLocation.getText());
-				customer.setPhone(phoneNumber.getText());
-				customer.setCustomerCode(code.getText());
-				customer.setEmail(emailAddress.getText());
-				
-				new CustomerDAO().editCustomerDAO(customer); 
-				JOptionPane.showMessageDialog(null,"Customer updated succesfully!");
-			}
-		}			
+				 if(emailAddress.getText().equals("")){
+					 JOptionPane.showMessageDialog(null,"Please enter email!");
+				 }   
+				 else {
+					 customer.setEmail(emailAddress.getText());
+					 List<String> ids=custDAO.getCustomerIds();
+					 if(ids!=null && ids.size()>0 && ids.contains((emailAddress.getText()))){
+						 customer.setCustomerId(uniqueId.getText());
+						 customer.setName(customerName.getText());
+						 customer.setLocation(customerLocation.getText());
+						 customer.setPhone(phoneNumber.getText());
+						 customer.setCustomerCode(code.getText());
+						 customer.setEmail(emailAddress.getText());
+						 new CustomerDAO().editCustomerDAO(customer); 
+						 JOptionPane.showMessageDialog(null,"Customer Updated succesfully!");
+					 }
+					 
+	           		else{
+	           			JOptionPane.showMessageDialog(null,"Customer does not exist!");
+	           		}
+				 }
+			 }
+			 
+			 if(e.getSource()==back) {
+				  this.dispose();
+				  CustomersPage cp = new CustomersPage();
+			 }
+		}
 	}

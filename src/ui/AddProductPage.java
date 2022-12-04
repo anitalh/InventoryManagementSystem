@@ -33,24 +33,19 @@ public class AddProductPage extends JFrame implements ActionListener{
 	 private JButton save;
 	 private JButton back;
 
-	public AddProductPage()
-	{
+	public AddProductPage(){
 		setTitle("Add product page");
 		setPanel();
 		setSize(500,500);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
 
-		private void setPanel() {
-		
+		private void setPanel() {		
 		/* Setting up panel */
 		panel = new JPanel();
-	
-	    
-		
+			
 	    productCode=new JLabel("Product code");
 	    prodCode=new JTextField(20);
 	    
@@ -79,9 +74,7 @@ public class AddProductPage extends JFrame implements ActionListener{
 		panel.add(prodPrice);
 		
 		panel.add(save);
-		
-		
-		
+				
 		setLayout(new GridBagLayout());
 	    GridBagConstraints gc=new GridBagConstraints();
 	    
@@ -129,20 +122,11 @@ public class AddProductPage extends JFrame implements ActionListener{
 	    gc.gridx=0;
 	    gc.gridy=5;
 	    add(back,gc);
-	    
-	    
-	    
+	    	    
 	    save.addActionListener(this);
-	    back.addActionListener(this);
-	    
-	    
+	    back.addActionListener(this);	    
 	}
-		
-		
-		
-		
-		
-		
+			
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
@@ -159,8 +143,7 @@ public class AddProductPage extends JFrame implements ActionListener{
         	product.setPrice(Integer.parseInt(prodPrice.getText()));
         	  
             new ProductDAO().addProduct(product);
-            JOptionPane.showMessageDialog(null,"Product added succesfully!");
-            
+            JOptionPane.showMessageDialog(null,"Product added succesfully!");      
         }
 	  }
 	  

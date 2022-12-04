@@ -4,6 +4,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -36,20 +38,22 @@ import pojo.User;
 		private JLabel email;
 		private JTextField emailAddress;
 		
-		 private JButton save;
+		private JButton update;
+		private JButton back;
+		
+		private UserDAO userDAO;
 
-		public UpdateUserPage()
-		{
+		public UpdateUserPage()	{
 			setTitle("Update User page");
 			setPanel();
 			setSize(500,500);
+			/* Set frame to center of the screen */
+	    	setLocationRelativeTo(null);
 			setVisible(true);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
 
-			private void setPanel() {
-			
+		private void setPanel() {		
 			/* Setting up panel */
 			panel = new JPanel();
 				
@@ -71,7 +75,8 @@ import pojo.User;
 			category=new JLabel("Category");
 			userCategory=new JTextField(20);
 		    
-		    save=new JButton("Save");
+			update=new JButton("Update");
+			back=new JButton("Back");
 		    
 			panel.add(userId);
 			panel.add(uId);
@@ -91,9 +96,8 @@ import pojo.User;
 			panel.add(category);
 			panel.add(userCategory);
 			
-			panel.add(save);
-			
-			
+			panel.add(update);
+			panel.add(back);		
 			
 			setLayout(new GridBagLayout());
 		    GridBagConstraints gc=new GridBagConstraints();
@@ -153,12 +157,14 @@ import pojo.User;
 		    
 		    gc.gridx=1;
 		    gc.gridy=7;
-		    add(save,gc);
+		    add(update,gc);
 		    
-		    save.addActionListener(this);
-		   
+		    gc.gridx=0;
+		    gc.gridy=7;
+		    add(back,gc);
 		    
-		    
+		    update.addActionListener(this);
+		    back.addActionListener(this);	    
 		}
 		
 		public static void main(String[] args) {
@@ -167,22 +173,36 @@ import pojo.User;
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			User user=new User();
+			if(e.getSource()==update) {
+				User user=new User();
+				userDAO=new UserDAO();
 			
-			if(uId.getText().equals("") || userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("") || emailAddress.getText().equals("") ){
-				JOptionPane.showMessageDialog(null,"Please fill all the fields!");
-			}   
-			else {
-				user.setUserId(uId.getText());
-				user.setName(userName.getText());
-				user.setLocation(userLocation.getText());
-				user.setPhone(phoneNumber.getText());
-				user.setCategory(userCategory.getText());
-				user.setEmail(emailAddress.getText());
-				
-				new UserDAO().editUserDAO(user); 
-				JOptionPane.showMessageDialog(null,"User Updated succesfully!");
+				if(emailAddress.getText().equals("")){
+					JOptionPane.showMessageDialog(null,"Please enter email!");
+				}   
+				else {
+					user.setEmail(emailAddress.getText());
+					List<String> ids=userDAO.getUserIds();
+					if(ids!=null && ids.size()>0 && ids.contains((emailAddress.getText()))){
+						user.setUserId(uId.getText());
+						user.setName(userName.getText());
+						user.setLocation(userLocation.getText());
+						user.setPhone(phoneNumber.getText());
+						user.setCategory(userCategory.getText());
+						user.setEmail(emailAddress.getText());
+						new UserDAO().editUserDAO(user); 
+						JOptionPane.showMessageDialog(null,"User Updated succesfully!");
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(null,"User does not exist!");
+					}
+				}
 			}
-		}			
+			
+			if(e.getSource()==back) {
+				  this.dispose();
+				UsersPage cp = new UsersPage();
+			}
+		}		
 	}

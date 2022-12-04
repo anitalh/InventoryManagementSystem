@@ -67,19 +67,14 @@ public class DeleteProductPage extends JFrame implements ActionListener{
 	    gc.gridy=1;
 	    add(delete,gc);
 	    
-	    delete.addActionListener(this);
-	    
-	    
+	    delete.addActionListener(this);    
 	}
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		DeleteProductPage dp=new DeleteProductPage();
-
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		Product product=new Product();
 		prodDAO=new ProductDAO();
 		if(productId.getText().equals("")){
@@ -90,9 +85,8 @@ public class DeleteProductPage extends JFrame implements ActionListener{
         	/* Check if entered id is valid */
         	if(ids.contains(Integer.parseInt(productId.getText()))){
         		prodDAO.deleteProduct(product);
-        		JOptionPane.showMessageDialog(null,"Product deleted succesfully!");
-            
-        }
+        		JOptionPane.showMessageDialog(null,"Product deleted succesfully!");        
+        	}
         	else
         	{
         		JOptionPane.showMessageDialog(null,"Product does not exist!");

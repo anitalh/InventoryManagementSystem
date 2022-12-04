@@ -7,17 +7,18 @@ import java.util.List;
 import pojo.User;
 import database.DatabaseConnectionFactory;
 
+
 public class UserDAO{
-	private Connection connect = null;
-	private PreparedStatement prepStatement = null;
-	private Statement statement = null;
-	private ResultSet rs = null;
+	private Connection con=null;
+	private ResultSet result=null;
+	private Statement stmt=null;
+	private PreparedStatement pstmt=null;
 
     // Database connection 
     public UserDAO() {
         try {
-        	connect = new DatabaseConnectionFactory().getConnection();
-        	statement = connect.createStatement();
+        	con = new DatabaseConnectionFactory().getConnection();
+        	stmt = con.createStatement();
         } 
         catch (Exception e) {
             e.printStackTrace();
@@ -27,61 +28,68 @@ public class UserDAO{
     // Delete User based on user_id
     public void deleteUserDAO(User user){
     	try{
-                 String query="DELETE from users WHERE user_id='"+user.getUserId()+"';";
-                 prepStatement=connect.prepareStatement(query);
-                 prepStatement.executeUpdate();
-             }    	
-    	catch(SQLException e){
-                e.printStackTrace();
-              }
+            String query="DELETE from users WHERE email='"+user.getEmail()+"';";
+            pstmt=con.prepareStatement(query);
+            pstmt.executeUpdate();
+        }    	
+	catch(SQLException e){
+           e.printStackTrace();
          }
+    }
+    
 
     // Get User details from database
     public ResultSet getUserDAO() {
-    	try{
-    			String query = "SELECT user_id, name, Location, Phone, Category, email FROM users;";  
-             	rs=statement.executeQuery(query);
-                 while(rs.next())  
-            		System.out.println(rs.getString(2));
-             }
-    	catch(SQLException e){
-               	e.printStackTrace();
-             }
-			return rs;
-         }
+		try {
+			String query="SELECT * from users";
+			result=stmt.executeQuery(query);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
         
     // Add user to database
     public void addUserDAO(User user) {
     	try{             	
-               String query = "INSERT INTO users (user_id, name, Location, Phone, Category, email) VALUES ('" + user.getUserId() +"','"+user.getName()+"','"+user.getLocation()  +"','"+user.getPhone() +"','"+user.getCategory() +"','"+user.getEmail()+"');";
-               prepStatement=connect.prepareStatement(query);
-               prepStatement.executeUpdate();
-             }
-    	catch(SQLException e){
-              	e.printStackTrace();
-             }   
-         }
+            String query = "INSERT INTO users (user_id, name, Location, Phone, Category, email) VALUES ('" + user.getUserId() +"','"+user.getName()+"','"+user.getLocation()  +"','"+user.getPhone() +"','"+user.getCategory() +"','"+user.getEmail()+"');";
+            pstmt=con.prepareStatement(query);
+            pstmt.executeUpdate();
+          }
+ 	catch(SQLException e){
+           	e.printStackTrace();
+          }   
+      }
     
     // Update user details
-    public void editUserDAO(User user){        
-        try{
-            String query = "UPDATE users SET user_id='"+ user.getUserId()+"', name='"+user.getName()+"', Location='"+ user.getLocation()+"', Phone='" +user.getPhone() +"', Category ='"+ user.getCategory()+"' WHERE email='"+user.getEmail() + "';";
-            prepStatement = connect.prepareStatement(query);
-            prepStatement.executeUpdate(query);
-        	}
-        catch(Exception e){
-        	e.printStackTrace();
-    	}
-    }
+    public void editUserDAO(User user){  
+		try {
+			 String updateQuery="UPDATE users SET user_id=?,name=?,Location=?,Phone=?,Category=? Where email=?";
+			 pstmt = (PreparedStatement) con.prepareStatement(updateQuery);
+			 pstmt.setString(1, user.getUserId());
+			 pstmt.setString(2, user.getName());
+			 pstmt.setString(3, user.getLocation());
+			 pstmt.setString(4,user.getPhone());
+			 pstmt.setString(5, user.getCategory());
+			 pstmt.setString(6, user.getEmail());
+			 pstmt.executeUpdate();
+			
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
     
     //Get list of user names
     public List<String> getUserNames(){
 		List<String> list=new ArrayList<>();
 		try {
 			 String query = "SELECT name from users";
-			 rs=statement.executeQuery(query);
-			 while(rs.next()) {
-				 list.add(rs.getString(1));
+			 result=stmt.executeQuery(query);
+			 while(result.next()) {
+				 list.add(result.getString(1));
 			 }
 		}
 		catch(Exception e) {
@@ -97,11 +105,11 @@ public class UserDAO{
     	String role="";
     	try {
     		String query="SELECT * from users where name=?";
-    		prepStatement = connect.prepareStatement(query);
-    		prepStatement.setString(1,userName);
-            rs=prepStatement.executeQuery();
-			 while(rs.next()) {
-				 role=rs.getString(5);
+    		pstmt = con.prepareStatement(query);
+    		pstmt.setString(1,userName);
+            result=pstmt.executeQuery();
+			 while(result.next()) {
+				 role=result.getString(5);
 			 }
 		}
 		catch(Exception e) {
@@ -110,6 +118,24 @@ public class UserDAO{
     	
     	return role;
     }
+    
+ 	//Get list of User ids
+	public List<String> getUserIds(){
+		List<String> list=new ArrayList<>();
+		try {
+			 String query = "SELECT email from users";
+			 result=stmt.executeQuery(query);
+			 while(result.next()) {
+				 list.add(result.getString(1));
+			 }
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+		
+	}
  
 }
 

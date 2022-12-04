@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.GridBagConstraints;
+import dao.UserDAO;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,8 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import dao.UserDAO;
 import pojo.User;
 
 
@@ -36,25 +35,22 @@ import pojo.User;
 		private JLabel email;
 		private JTextField emailAddress;
 		
-		 private JButton save;
+		private JButton save;
+		private JButton back;
 
-		public AddUserPage()
-		{
+		public AddUserPage(){
 			setTitle("Add User page");
 			setPanel();
 			setSize(500,500);
+			setLocationRelativeTo(null);
 			setVisible(true);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
 
-			private void setPanel() {
-			
+		private void setPanel() {		
 			/* Setting up panel */
 			panel = new JPanel();
-		
-		    
-			
+					
 			userId=new JLabel("User ID");
 			uId=new JTextField(20);
 		    
@@ -74,6 +70,7 @@ import pojo.User;
 			userCategory=new JTextField(20);
 		    
 		    save=new JButton("Save");
+		    back= new JButton("Back");
 		    
 			panel.add(userId);
 			panel.add(uId);
@@ -94,7 +91,7 @@ import pojo.User;
 			panel.add(userCategory);
 			
 			panel.add(save);
-			
+			panel.add(back);
 			
 			
 			setLayout(new GridBagLayout());
@@ -157,10 +154,12 @@ import pojo.User;
 		    gc.gridy=7;
 		    add(save,gc);
 		    
+		    gc.gridx=0;
+		    gc.gridy=7;
+		    add(back,gc);
+		    
 		    save.addActionListener(this);
-		   
-		    
-		    
+		    back.addActionListener(this);	    	    
 		}
 		
 		public static void main(String[] args) {
@@ -168,23 +167,30 @@ import pojo.User;
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent event) {
+			 if(event.getSource()==save) {
 			// TODO Auto-generated method stub
-			User user=new User();
+				 User user=new User();
 			
-			if(uId.getText().equals("") || userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("") || emailAddress.getText().equals("") ){
-				JOptionPane.showMessageDialog(null,"Please fill all the fields!");
-			}   
-			else {
-				user.setUserId(uId.getText());
-				user.setName(userName.getText());
-				user.setLocation(userLocation.getText());
-				user.setPhone(phoneNumber.getText());
-				user.setCategory(userCategory.getText());
-				user.setEmail(emailAddress.getText());
+				 if(uId.getText().equals("") || userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("") || emailAddress.getText().equals("") ){
+					 JOptionPane.showMessageDialog(null,"Please fill all the fields!");
+				 }   
+				 else {
+					 user.setUserId(uId.getText());
+					 user.setName(userName.getText());
+					 user.setLocation(userLocation.getText());
+					 user.setPhone(phoneNumber.getText());
+					 user.setCategory(userCategory.getText());
+					 user.setEmail(emailAddress.getText());
 				
-				new UserDAO().addUserDAO(user); 
-				JOptionPane.showMessageDialog(null,"User added succesfully!");
-			}
-		}			
+					 new UserDAO().addUserDAO(user); 
+					 JOptionPane.showMessageDialog(null,"User added succesfully!");
+				 	}
+			 	}
+			 
+			  if(event.getSource()==back) {
+				  	this.dispose();
+					UsersPage hp=new UsersPage();
+			  }
+		}
 	}

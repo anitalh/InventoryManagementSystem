@@ -17,9 +17,6 @@ import dao.UserDAO;
 
 public class HomePage extends JFrame implements ActionListener{
 	
-	private JFrame frame;
-	private JPanel panel,topPanel;
-	
 	private JButton products;
 	
 	private JButton customers;
@@ -39,9 +36,9 @@ public class HomePage extends JFrame implements ActionListener{
 	}
 	
 	private void setPanel() {
-	    frame = new JFrame();
-		panel = new JPanel();
-		topPanel=new JPanel();
+	    new JFrame();
+		new JPanel();
+		new JPanel();
 		
 		products=new JButton("Products section");
 		customers=new JButton("Customers section");
@@ -116,6 +113,11 @@ public class HomePage extends JFrame implements ActionListener{
 		}
 		else  if(e.getSource()==users){
 			this.dispose();
+			UsersPage userPage= new UsersPage();
+		}
+		else  if(e.getSource()==customers){
+			this.dispose();
+			CustomersPage custPage=new CustomersPage();
 			//call users home page
 		}
 		else {

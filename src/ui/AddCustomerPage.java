@@ -36,25 +36,23 @@ import pojo.Customer;
 		private JLabel email;
 		private JTextField emailAddress;
 		
-		 private JButton save;
+		private JButton save;
+		private JButton back;
 
 		public AddCustomerPage()
 		{
 			setTitle("Add customer page");
 			setPanel();
 			setSize(500,500);
+			setLocationRelativeTo(null);
 			setVisible(true);
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
 
-			private void setPanel() {
-			
+		private void setPanel() {		
 			/* Setting up panel */
 			panel = new JPanel();
-		
-		    
-			
+					
 			customerId=new JLabel("Customer ID");
 			uniqueId=new JTextField(20);
 		    
@@ -74,6 +72,7 @@ import pojo.Customer;
 			code=new JTextField(20);
 		    
 		    save=new JButton("Save");
+		    back= new JButton("Back");
 		    
 			panel.add(customerId);
 			panel.add(uniqueId);
@@ -94,6 +93,7 @@ import pojo.Customer;
 			panel.add(code);
 			
 			panel.add(save);
+			panel.add(back);
 				
 			setLayout(new GridBagLayout());
 		    GridBagConstraints gc=new GridBagConstraints();
@@ -155,10 +155,12 @@ import pojo.Customer;
 		    gc.gridy=7;
 		    add(save,gc);
 		    
+		    gc.gridx=0;
+		    gc.gridy=7;
+		    add(back,gc);
+		    
 		    save.addActionListener(this);
-		   
-		    
-		    
+		    back.addActionListener(this);		    
 		}
 		
 		public static void main(String[] args) {
@@ -166,23 +168,29 @@ import pojo.Customer;
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			Customer customer=new Customer();
+		public void actionPerformed(ActionEvent event) {
+			if(event.getSource()==save) {
+				Customer customer=new Customer();
 			
-			if(uniqueId.getText().equals("") || customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("") ){
-				JOptionPane.showMessageDialog(null,"Please fill all the fields!");
-			}   
-			else {
-				customer.setCustomerId(uniqueId.getText());
-				customer.setName(customerName.getText());
-				customer.setLocation(customerLocation.getText());
-				customer.setPhone(phoneNumber.getText());
-				customer.setCustomerCode(code.getText());
-				customer.setEmail(emailAddress.getText());
+				if(uniqueId.getText().equals("") || customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("") ){
+					JOptionPane.showMessageDialog(null,"Please fill all the fields!");
+				}   
+				else {
+					customer.setCustomerId(uniqueId.getText());
+					customer.setName(customerName.getText());
+					customer.setLocation(customerLocation.getText());
+					customer.setPhone(phoneNumber.getText());
+					customer.setCustomerCode(code.getText());
+					customer.setEmail(emailAddress.getText());
 				
-				new CustomerDAO().addCustomerDAO(customer); 
-				JOptionPane.showMessageDialog(null,"Customer added succesfully!");
-			}
+					new CustomerDAO().addCustomerDAO(customer); 
+					JOptionPane.showMessageDialog(null,"Customer added succesfully!");
+					}
+				}
+			
+			 if(event.getSource()==back) {
+				  	this.dispose();
+					CustomersPage cp = new CustomersPage();
+			  }
 		}			
 	}
