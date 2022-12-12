@@ -36,8 +36,9 @@ public class AddProductPage extends JFrame implements ActionListener{
 	public AddProductPage(){
 		setTitle("Add product page");
 		setPanel();
-		setSize(500,500);
+		setSize(1000,800);
 		setLocationRelativeTo(null);
+		getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	
 	}
@@ -154,9 +155,7 @@ public class AddProductPage extends JFrame implements ActionListener{
 		
 	}
 	
-	public static void main(String[] args) {
-		AddProductPage ap=new AddProductPage();
-	}
+	
 	
 	
 }

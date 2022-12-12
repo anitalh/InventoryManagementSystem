@@ -18,14 +18,14 @@ public class ProductsPage extends JFrame implements ActionListener{
 	private JButton updateProduct;
 	private JButton viewProducts;
 	
-	
-	
+	private JButton back;
 	
 	public ProductsPage() {
 		setTitle("Products page");
 		setPanel();
-		setSize(500,500);
+		setSize(1000,800);
 		/* Set frame to center of the screen */
+		getContentPane().setBackground(new java.awt.Color(204, 227, 227));
     	setLocationRelativeTo(null);
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +38,7 @@ public class ProductsPage extends JFrame implements ActionListener{
 		deleteProduct=new JButton("Delete Product");
 		updateProduct=new JButton("Update Product");
 		viewProducts=new JButton("View Products");
+		back=new JButton("Back");
 		
 		setLayout(new GridBagLayout());
 	    GridBagConstraints gc=new GridBagConstraints();
@@ -63,18 +64,20 @@ public class ProductsPage extends JFrame implements ActionListener{
 	    gc.gridy=3;
 	    add(viewProducts,gc);
 	    
+	    gc.gridx=0;
+	    gc.gridy=4;
+	    add(back,gc);
+	    
 	    addProduct.addActionListener(this);
 	    deleteProduct.addActionListener(this);
 	    updateProduct.addActionListener(this);
 	    viewProducts.addActionListener(this);
+	    back.addActionListener(this);
 	    
 	}
 	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ProductsPage pp=new ProductsPage();
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -93,9 +96,13 @@ public class ProductsPage extends JFrame implements ActionListener{
 			this.dispose();
 			UpdateProductPage updateProd=new UpdateProductPage();
 		}
-		else {
+		else if(e.getSource()==viewProducts){
 			this.dispose();
 			ViewProductsPage viewProd=new ViewProductsPage();
+		}
+		else {
+			this.dispose();
+			HomePage hp=new HomePage();
 		}
 		
 		

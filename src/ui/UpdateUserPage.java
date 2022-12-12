@@ -46,9 +46,10 @@ import pojo.User;
 		public UpdateUserPage()	{
 			setTitle("Update User page");
 			setPanel();
-			setSize(500,500);
+			setSize(1000,800);
 			/* Set frame to center of the screen */
 	    	setLocationRelativeTo(null);
+	    	getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
@@ -167,24 +168,20 @@ import pojo.User;
 		    back.addActionListener(this);	    
 		}
 		
-		public static void main(String[] args) {
-			UpdateUserPage up=new UpdateUserPage();
-		}
-
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource()==update) {
 				User user=new User();
 				userDAO=new UserDAO();
 			
-				if(emailAddress.getText().equals("")){
-					JOptionPane.showMessageDialog(null,"Please enter email!");
+				if(uId.getText().equals("") ||emailAddress.getText() .equals("") || userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("")){
+					JOptionPane.showMessageDialog(null,"Please enter all the details!");
 				}   
 				else {
-					user.setEmail(emailAddress.getText());
-					List<String> ids=userDAO.getUserIds();
-					if(ids!=null && ids.size()>0 && ids.contains((emailAddress.getText()))){
-						user.setUserId(uId.getText());
+					List<Integer> ids=userDAO.getUserIds();
+					if(ids!=null && ids.size()>0 && ids.contains(Integer.parseInt(uId.getText()))){
+						user.setUserId(Integer.parseInt(uId.getText()));
 						user.setName(userName.getText());
 						user.setLocation(userLocation.getText());
 						user.setPhone(phoneNumber.getText());

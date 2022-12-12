@@ -20,8 +20,8 @@ import pojo.User;
 	public class DeleteUserPage extends JFrame implements ActionListener{
 		private JPanel panel;
 		
-		private JLabel email;
-		private JTextField emailAddress;
+		private JLabel userId;
+		private JTextField uId;
 		
 		private JButton delete;
 		private JButton back;
@@ -31,9 +31,10 @@ import pojo.User;
 		public DeleteUserPage(){
 			setTitle("Delete User page");
 			setPanel();
-			setSize(500,500);
+			setSize(1000,800);
 			/* Set frame to center of the screen */
 	    	setLocationRelativeTo(null);
+	    	getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
@@ -42,14 +43,14 @@ import pojo.User;
 			/* Setting up panel */
 			panel = new JPanel();
 			
-			email=new JLabel("Email");
-			emailAddress=new JTextField(20);
+			userId=new JLabel("User Id");
+			uId=new JTextField(20);
 		    
 		    delete=new JButton("Delete");
 		    back = new JButton("Back");
 			
-			panel.add(email);
-			panel.add(emailAddress);
+			panel.add(userId);
+			panel.add(uId);
 			
 			panel.add(delete);
 			panel.add(back);
@@ -61,13 +62,13 @@ import pojo.User;
 		    gc.weightx=0.5;
 		    gc.weighty=0.5;
 		    
-		    gc.gridx=1;
-		    gc.gridy=0;
-		    add(emailAddress,gc);
-		    
 		    gc.gridx=0;
 		    gc.gridy=0;
-		    add(email,gc);
+		    add(userId,gc);
+		    
+		    gc.gridx=1;
+		    gc.gridy=0;
+		    add(uId,gc);
 		    
 		    gc.gridx=1;
 		    gc.gridy=1;
@@ -81,9 +82,7 @@ import pojo.User;
 		    back.addActionListener(this);		    
 		}
 		
-		public static void main(String[] args) {
-			DeleteUserPage dp=new DeleteUserPage();
-		}
+	
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -92,14 +91,14 @@ import pojo.User;
 				userDAO = new UserDAO();
 			
 			
-				if(emailAddress.getText().equals("")){
-					JOptionPane.showMessageDialog(null,"Please enter Email id!");
+				if(uId.getText().equals("")){
+					JOptionPane.showMessageDialog(null,"Please enter user id!");
 				}
 				else{
-					user.setEmail(emailAddress.getText());
-					List<String> ids=userDAO.getUserIds();
+					user.setUserId(Integer.parseInt(uId.getText()));
+					List<Integer> ids=userDAO.getUserIds();
 	        	/* Check if entered id is valid */
-					if(ids.contains(emailAddress.getText())){
+					if(ids.contains(Integer.parseInt(uId.getText()))){
 						userDAO.deleteUserDAO(user);
 						JOptionPane.showMessageDialog(null,"User deleted succesfully!");            
 					}

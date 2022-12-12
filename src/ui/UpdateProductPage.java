@@ -38,12 +38,15 @@ public class UpdateProductPage extends JFrame implements ActionListener{
 	
 	private JButton update;
 	
+	private JButton back;
+	
 	public UpdateProductPage() {
 		setTitle("Update products page");
 		setPanel();
-		setSize(500,500);
+		setSize(1000,800);
 		/* Set frame to center of the screen */
     	setLocationRelativeTo(null);
+    	getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -68,6 +71,8 @@ public class UpdateProductPage extends JFrame implements ActionListener{
 	    prodPrice=new JTextField(20);
 	    
 	    update=new JButton("Update");
+	    
+	    back=new JButton("Back");
 	    
 	    panel.add(productId);
 		panel.add(prodId);
@@ -139,8 +144,12 @@ public class UpdateProductPage extends JFrame implements ActionListener{
 	    gc.gridy=6;
 	    add(update,gc);
 	    
+	    gc.gridx=0;
+	    gc.gridy=6;
+	    add(back,gc);
+	    
 	    update.addActionListener(this);
-	   
+	    back.addActionListener(this);
 		
 		
 	}
@@ -150,10 +159,10 @@ public class UpdateProductPage extends JFrame implements ActionListener{
 		// TODO Auto-generated method stub
 		Product product=new Product();
 		prodDAO=new ProductDAO();
-    	if(productId.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Please enter product id!");
+		if(e.getSource()==update) {
+    	if(productId.getText().equals("") || prodQty.getText().equals("") || prodPrice.getText().equals("") || prodCode.getText().equals("") || prodName.getText().equals("")){
+            JOptionPane.showMessageDialog(null,"Please enter all the details!");
         }else{
-        	product.setProductId(Integer.parseInt(prodId.getText()));
         	List<Integer> ids=prodDAO.getProductIds();
         	/* Check if product id exists otherwise throw error */
         	if(ids!=null && ids.size()>0 && ids.contains(Integer.parseInt(prodId.getText()))){
@@ -171,15 +180,15 @@ public class UpdateProductPage extends JFrame implements ActionListener{
         	}
         	
         }
+		}else {
+			this.dispose();
+			ProductsPage prod=new ProductsPage();
+		}
 		
 	}
 	
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		UpdateProductPage up=new UpdateProductPage();
-	}
-
+	
 	
 
 }

@@ -13,13 +13,15 @@ public class CustomersPage extends JFrame implements ActionListener {
 	private JButton addCustomer;
 	private JButton updateCustomer;
 	private JButton viewCustomer;
+	private JButton back;
 	
 	public CustomersPage() {
 		setTitle("Customer page");
 		setPanel();
-		setSize(500,500);
+		setSize(1000,800);
 		/* Set frame to center of the screen */
     	setLocationRelativeTo(null);
+    	getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
@@ -30,6 +32,8 @@ public class CustomersPage extends JFrame implements ActionListener {
 		addCustomer=new JButton("Add Customer");
 		updateCustomer=new JButton("Update Customer");
 		viewCustomer=new JButton("View Customer");
+		
+		back=new JButton("Back");
 		
 		setLayout(new GridBagLayout());
 	    GridBagConstraints gc=new GridBagConstraints();
@@ -51,30 +55,36 @@ public class CustomersPage extends JFrame implements ActionListener {
 	    gc.gridy=2;
 	    add(viewCustomer,gc);
 	    
+	    gc.gridx=0;
+	    gc.gridy=3;
+	    add(back,gc);
+	    
 	    addCustomer.addActionListener(this);
 	    updateCustomer.addActionListener(this);
-	    viewCustomer.addActionListener(this);		
+	    viewCustomer.addActionListener(this);
+	    back.addActionListener(this);
 	}
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		CustomersPage cp=new CustomersPage();
-	}
+	
 
 	@Override
 	public void actionPerformed(ActionEvent e) {		
 		/* Display appropriate screens based on buttons clicked */
 		if(e.getSource()==addCustomer) {
 			this.dispose();
-			AddCustomerPage add=new AddCustomerPage();
+			AddCustomerPage addProd=new AddCustomerPage();
 		}
 		else if(e.getSource()==updateCustomer) {
 			this.dispose();
-			UpdateCustomerPage update=new UpdateCustomerPage();
+			UpdateCustomerPage deleteProd=new UpdateCustomerPage();
+		}
+		else if(e.getSource()==viewCustomer){
+			this.dispose();
+			ViewCustomerPage viewCustomer=new ViewCustomerPage();
 		}
 		else {
 			this.dispose();
-			ViewCustomerPage viewCustomer=new ViewCustomerPage();
+			HomePage customer=new HomePage();
 		}
 	}
 }

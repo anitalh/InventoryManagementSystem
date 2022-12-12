@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -30,10 +31,12 @@ private JPanel panel;
 	
 	private CustomerDAO custDAO;
 	
+	private JButton back;
+	
 	public ViewCustomerPage() {
 		setTitle("View Customer page");
 		setPanel();
-		setSize(500,500);
+		setSize(500,800);
 		/* Set frame to center of the screen */
     	setLocationRelativeTo(null);
 		setVisible(true);
@@ -42,7 +45,8 @@ private JPanel panel;
 	
 	private void setPanel() {
 		panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
+		back=new JButton("Back");
+		
 	    
 		String[] columnNames= {"Customer Id","Customer Name","Customer Code","Email"};
 		DefaultTableModel model = new DefaultTableModel();
@@ -58,7 +62,7 @@ private JPanel panel;
         		uniqueID=rs.getString(1);
         		customerName=rs.getString(2);
         		code=rs.getString(3);
-        		emailAddress=rs.getString(4);
+        		emailAddress=rs.getString(6);
         		model.addRow(new Object[]{uniqueID, customerName, code, emailAddress});
         		i++;
         	}
@@ -76,19 +80,22 @@ private JPanel panel;
         panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Customers view", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
  
-       panel.add(scrollPane);
-       add(panel);
+        jTable.setBackground(new java.awt.Color(204, 227, 227));
+	    panel.add(new JScrollPane(jTable), BorderLayout.CENTER);
+	  
+	    panel.add(back, BorderLayout.SOUTH);
+	    add(panel);
+       
+       back.addActionListener(this);
         
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
+			  	this.dispose();
+			  	CustomersPage hp=new CustomersPage();
 	}
 	
-	public static void main(String[] args) {
-		ViewCustomerPage viewCustomer=new ViewCustomerPage();
-
-	}
-
+	
 }

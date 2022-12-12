@@ -17,9 +17,6 @@ import pojo.User;
 	public class AddUserPage extends JFrame implements ActionListener{
 		private JPanel panel;
 		
-		private JLabel userId;
-		private JTextField uId;
-		
 		private JLabel name;
 		private JTextField userName;
 		
@@ -41,8 +38,9 @@ import pojo.User;
 		public AddUserPage(){
 			setTitle("Add User page");
 			setPanel();
-			setSize(500,500);
+			setSize(1000,800);
 			setLocationRelativeTo(null);
+			getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
@@ -50,9 +48,6 @@ import pojo.User;
 		private void setPanel() {		
 			/* Setting up panel */
 			panel = new JPanel();
-					
-			userId=new JLabel("User ID");
-			uId=new JTextField(20);
 		    
 			name=new JLabel("Name");
 			userName=new JTextField(20);
@@ -71,9 +66,6 @@ import pojo.User;
 		    
 		    save=new JButton("Save");
 		    back= new JButton("Back");
-		    
-			panel.add(userId);
-			panel.add(uId);
 			
 			panel.add(name);
 			panel.add(userName);
@@ -100,15 +92,6 @@ import pojo.User;
 		    /* Set weights */
 		    gc.weightx=0.5;
 		    gc.weighty=0.5;
-		    
-		    gc.gridx=0;
-		    gc.gridy=0;
-		    gc.gridheight=1;
-		    add(userId,gc);
-		    
-		    gc.gridx=1;
-		    gc.gridy=0;
-		    add(uId,gc);
 		    
 		    gc.gridx=0;
 		    gc.gridy=2;
@@ -162,9 +145,7 @@ import pojo.User;
 		    back.addActionListener(this);	    	    
 		}
 		
-		public static void main(String[] args) {
-			AddUserPage ap=new AddUserPage();
-		}
+		
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
@@ -172,11 +153,10 @@ import pojo.User;
 			// TODO Auto-generated method stub
 				 User user=new User();
 			
-				 if(uId.getText().equals("") || userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("") || emailAddress.getText().equals("") ){
+				 if(userName.getText().equals("") || userLocation.getText().equals("") || phoneNumber.getText().equals("") || userCategory.getText().equals("") || emailAddress.getText().equals("") ){
 					 JOptionPane.showMessageDialog(null,"Please fill all the fields!");
 				 }   
 				 else {
-					 user.setUserId(uId.getText());
 					 user.setName(userName.getText());
 					 user.setLocation(userLocation.getText());
 					 user.setPhone(phoneNumber.getText());

@@ -49,8 +49,9 @@ import pojo.User;
 		public UpdateCustomerPage(){
 			setTitle("Update customer page");
 			setPanel();
-			setSize(500,500);
+			setSize(1000,800);
 			setLocationRelativeTo(null);
+			getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 			setVisible(true);
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
 		}
@@ -170,9 +171,7 @@ import pojo.User;
 		    
 		}
 		
-		public static void main(String[] args) {
-			UpdateCustomerPage cp =new UpdateCustomerPage();
-		}
+		
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -180,13 +179,12 @@ import pojo.User;
 				 Customer customer=new Customer();
 				 custDAO=new CustomerDAO();
 			
-				 if(emailAddress.getText().equals("")){
-					 JOptionPane.showMessageDialog(null,"Please enter email!");
+				 if(uniqueId.getText().equals("") || customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("")){
+					 JOptionPane.showMessageDialog(null,"Please enter all the details!");
 				 }   
 				 else {
-					 customer.setEmail(emailAddress.getText());
-					 List<String> ids=custDAO.getCustomerIds();
-					 if(ids!=null && ids.size()>0 && ids.contains((emailAddress.getText()))){
+					 List<Integer> ids=custDAO.getCustomerIds();
+					 if(ids!=null && ids.size()>0 && ids.contains(Integer.parseInt(uniqueId.getText()))){
 						 customer.setCustomerId(uniqueId.getText());
 						 customer.setName(customerName.getText());
 						 customer.setLocation(customerLocation.getText());

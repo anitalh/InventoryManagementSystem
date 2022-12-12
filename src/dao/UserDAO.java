@@ -28,7 +28,7 @@ public class UserDAO{
     // Delete User based on user_id
     public void deleteUserDAO(User user){
     	try{
-            String query="DELETE from users WHERE email='"+user.getEmail()+"';";
+            String query="DELETE from users WHERE user_id='"+user.getUserId()+"';";
             pstmt=con.prepareStatement(query);
             pstmt.executeUpdate();
         }    	
@@ -53,7 +53,7 @@ public class UserDAO{
     // Add user to database
     public void addUserDAO(User user) {
     	try{             	
-            String query = "INSERT INTO users (user_id, name, Location, Phone, Category, email) VALUES ('" + user.getUserId() +"','"+user.getName()+"','"+user.getLocation()  +"','"+user.getPhone() +"','"+user.getCategory() +"','"+user.getEmail()+"');";
+            String query = "INSERT INTO users (name, Location, Phone, Category, email) VALUES ('"+user.getName()+"','"+user.getLocation()  +"','"+user.getPhone() +"','"+user.getCategory() +"','"+user.getEmail()+"');";
             pstmt=con.prepareStatement(query);
             pstmt.executeUpdate();
           }
@@ -65,14 +65,14 @@ public class UserDAO{
     // Update user details
     public void editUserDAO(User user){  
 		try {
-			 String updateQuery="UPDATE users SET user_id=?,name=?,Location=?,Phone=?,Category=? Where email=?";
+			 String updateQuery="UPDATE users SET name=?,Location=?,Phone=?,Category=?,email=? Where user_id=?";
 			 pstmt = (PreparedStatement) con.prepareStatement(updateQuery);
-			 pstmt.setString(1, user.getUserId());
-			 pstmt.setString(2, user.getName());
-			 pstmt.setString(3, user.getLocation());
-			 pstmt.setString(4,user.getPhone());
-			 pstmt.setString(5, user.getCategory());
-			 pstmt.setString(6, user.getEmail());
+			 pstmt.setString(1, user.getName());
+			 pstmt.setString(2, user.getLocation());
+			 pstmt.setString(3, user.getPhone());
+			 pstmt.setString(4,user.getCategory());
+			 pstmt.setString(5, user.getEmail());
+			 pstmt.setInt(6, user.getUserId());
 			 pstmt.executeUpdate();
 			
 		}
@@ -120,13 +120,13 @@ public class UserDAO{
     }
     
  	//Get list of User ids
-	public List<String> getUserIds(){
-		List<String> list=new ArrayList<>();
+	public List<Integer> getUserIds(){
+		List<Integer> list=new ArrayList<>();
 		try {
-			 String query = "SELECT email from users";
+			 String query = "SELECT user_id from users";
 			 result=stmt.executeQuery(query);
 			 while(result.next()) {
-				 list.add(result.getString(1));
+				 list.add(result.getInt(1));
 			 }
 		}
 		catch(Exception e) {

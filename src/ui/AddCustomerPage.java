@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -17,9 +18,6 @@ import pojo.Customer;
 
 	public class AddCustomerPage extends JFrame implements ActionListener{
 		private JPanel panel;
-		
-		private JLabel customerId;
-		private JTextField uniqueId;
 		
 		private JLabel name;
 		private JTextField customerName;
@@ -43,18 +41,16 @@ import pojo.Customer;
 		{
 			setTitle("Add customer page");
 			setPanel();
-			setSize(500,500);
+			setSize(1000,800);
 			setLocationRelativeTo(null);
 			setVisible(true);
+			getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);			
 		}
 
 		private void setPanel() {		
 			/* Setting up panel */
 			panel = new JPanel();
-					
-			customerId=new JLabel("Customer ID");
-			uniqueId=new JTextField(20);
 		    
 			name=new JLabel("Name");
 			customerName=new JTextField(20);
@@ -73,9 +69,6 @@ import pojo.Customer;
 		    
 		    save=new JButton("Save");
 		    back= new JButton("Back");
-		    
-			panel.add(customerId);
-			panel.add(uniqueId);
 			
 			panel.add(name);
 			panel.add(customerName);
@@ -101,15 +94,6 @@ import pojo.Customer;
 		    /* Set weights */
 		    gc.weightx=0.5;
 		    gc.weighty=0.5;
-		    
-		    gc.gridx=0;
-		    gc.gridy=0;
-		    gc.gridheight=1;
-		    add(customerId,gc);
-		    
-		    gc.gridx=1;
-		    gc.gridy=0;
-		    add(uniqueId,gc);
 		    
 		    gc.gridx=0;
 		    gc.gridy=2;
@@ -163,20 +147,17 @@ import pojo.Customer;
 		    back.addActionListener(this);		    
 		}
 		
-		public static void main(String[] args) {
-			AddCustomerPage ca =new AddCustomerPage();
-		}
+		
 
 		@Override
 		public void actionPerformed(ActionEvent event) {
 			if(event.getSource()==save) {
 				Customer customer=new Customer();
 			
-				if(uniqueId.getText().equals("") || customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("") ){
+				if(customerName.getText().equals("") || customerLocation.getText().equals("") || phoneNumber.getText().equals("") || code.getText().equals("") || emailAddress.getText().equals("") ){
 					JOptionPane.showMessageDialog(null,"Please fill all the fields!");
 				}   
 				else {
-					customer.setCustomerId(uniqueId.getText());
 					customer.setName(customerName.getText());
 					customer.setLocation(customerLocation.getText());
 					customer.setPhone(phoneNumber.getText());

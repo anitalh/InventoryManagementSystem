@@ -1,11 +1,13 @@
 package ui;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -28,21 +30,24 @@ public class ViewProductsPage extends JFrame implements ActionListener{
 	private String prodQty="";
 	private String prodPrice="";
 	
+	private JButton back;
 	private ProductDAO prodDAO;
 	
 	public ViewProductsPage() {
 		setTitle("View products page");
 		setPanel();
-		setSize(500,500);
+		setSize(500,800);
 		/* Set frame to center of the screen */
     	setLocationRelativeTo(null);
+    	getContentPane().setBackground(new java.awt.Color(204, 227, 227));
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	private void setPanel() {
 		panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
+		back=new JButton("Back");
+		
 		String[] columnNames= {"Product Id","Product Code","Name","Quantity","Price"};
 		DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(columnNames);
@@ -76,20 +81,23 @@ public class ViewProductsPage extends JFrame implements ActionListener{
         panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Products view", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
         
-       panel.add(scrollPane);
-       add(panel);
+       //panel.add(scrollPane);
+        jTable.setBackground(new java.awt.Color(204, 227, 227));
+        panel.add(new JScrollPane(jTable), BorderLayout.CENTER);
+	    panel.add(back, BorderLayout.SOUTH);
+	   
+	    back.addActionListener(this);
+        add(panel);
         
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		this.dispose();
+		ProductsPage hp=new ProductsPage();
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ViewProductsPage viewProducts=new ViewProductsPage();
-
-	}
+	
+	
 
 }

@@ -1,12 +1,14 @@
 package ui;
 
 
+import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,6 +23,8 @@ private JPanel panel;
 	
 	private JTable jTable;
 	
+	private JButton back;
+	
 	private String userId="";
 	private String name="";
 	private String email="";
@@ -29,7 +33,7 @@ private JPanel panel;
 	public ViewUsersPage() {
 		setTitle("View Users page");
 		setPanel();
-		setSize(500,500);
+		setSize(500,800);
 		/* Set frame to center of the screen */
     	setLocationRelativeTo(null);
 		setVisible(true);
@@ -38,7 +42,8 @@ private JPanel panel;
 	
 	private void setPanel() {
 		panel = new JPanel();
-		panel.setLayout(new GridBagLayout());
+		back=new JButton("Back");
+		
 		String[] columnNames= {"User Id", "User Name","Email"};
 		DefaultTableModel model = new DefaultTableModel();
         model.setColumnIdentifiers(columnNames);
@@ -52,7 +57,7 @@ private JPanel panel;
         	while(rs.next()) {
         		userId=rs.getString(1);
         		name=rs.getString(2);
-        		email=rs.getString(3);
+        		email=rs.getString(6);
         		model.addRow(new Object[]{userId, name, email});
         		i++;
         	}
@@ -72,20 +77,24 @@ private JPanel panel;
         panel.setBorder(BorderFactory.createTitledBorder(
                 BorderFactory.createEtchedBorder(), "Users view", TitledBorder.CENTER, TitledBorder.DEFAULT_POSITION));
         
-       panel.add(scrollPane);
-       add(panel);
+        jTable.setBackground(new java.awt.Color(204, 227, 227));
+        panel.add(new JScrollPane(jTable), BorderLayout.CENTER);
+        
+	    panel.add(back, BorderLayout.SOUTH);
+        back.addActionListener(this);
+        add(panel);
         
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+		this.dispose();
+		UsersPage users=new UsersPage();
 	}
 	
-	public static void main(String[] args) {
-		ViewUsersPage viewUsers=new ViewUsersPage();
-
-	}
+	
+	
+	
 	
 	
 }
