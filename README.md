@@ -19,4 +19,4 @@ username: `anita` and password: `pass123`
 User:
 username: `gretta` password: `pass123`
 
-Also make sure mysql is username: `root` and password: `admin`.
+Also make sure mysql is username: `root` and password: ``.
